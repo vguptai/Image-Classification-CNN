@@ -2,7 +2,7 @@ import tensorflow as tf
 from genericDataSetLoader import *
 from config import *
 
-genericDataSetLoader = genericDataSetLoader(True,"dataset",n_classes,testTrainSplit,imageSizeX,imageSizeY)
+genericDataSetLoader = genericDataSetLoader(False,"dataset",n_classes,testTrainSplit,imageSizeX,imageSizeY)
 genericDataSetLoader.loadData()
 
 x = tf.placeholder('float', [None, imageSizeX,imageSizeY,numChannels])
@@ -34,7 +34,7 @@ def convolutional_neural_network(x):
     conv2 = tf.nn.relu(conv2d(conv1, weights['W_conv2']) + biases['b_conv2'])
     conv2 = maxpool2d(conv2)
 
-    fc = tf.reshape(conv2, [-1, 7 * 7 * 64])
+    fc = tf.reshape(conv2, [-1, imageSizeX/4 * imageSizeY/4 * 64])
     fc = tf.nn.relu(tf.matmul(fc, weights['W_fc']) + biases['b_fc'])
     fc = tf.nn.dropout(fc, keep_rate)
 
@@ -61,7 +61,7 @@ def train_neural_network(x):
                     break
                 #img1 = Image.fromarray(epoch_x[1])
                 #img1.show()
-                epoch_x = np.reshape(epoch_x, (-1, imageSizeX, imageSizeY, numChannels))
+                #epoch_x = np.reshape(epoch_x, (-1, imageSizeX, imageSizeY, numChannels))
                 # print epoch_y[1]
                 # return
                 _, c = sess.run([optimizer, cost], feed_dict={x: epoch_x, y: epoch_y})
@@ -73,7 +73,7 @@ def train_neural_network(x):
 
         accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
         testX,testY = genericDataSetLoader.getNextTestBatch()
-        testX = np.reshape(testX, (-1, imageSizeX, imageSizeY, numChannels))
+        #testX = np.reshape(testX, (-1, imageSizeX, imageSizeY, numChannels))
         print('Accuracy:', accuracy.eval({x: testX, y: testY}))
 
 
