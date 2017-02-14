@@ -1,0 +1,9 @@
+Data loaded...
+(9648, 64, 64, 3)
+(9648, 2)
+(2411, 64, 64, 3)
+(2411, 2)
+('Epoch', 0, 'completed out of', 3, 'loss:', 1554702857.5625)
+('Epoch', 1, 'completed out of', 3, 'loss:', 290254648.6875)
+('Epoch', 2, 'completed out of', 3, 'loss:', 143640258.234375)
+('Accuracy:', 0.90875155)

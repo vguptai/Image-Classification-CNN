@@ -52,8 +52,8 @@ class genericDataSetLoader:
         cnt=0
         totalCnt = len(fileNames)
         for fName in fileNames:
-            cnt = cnt+1 
-            print "Loading Image:"+cnt+"/"+totalCnt
+            cnt = cnt+1
+            print "Loading Image:"+str(cnt)+"/"+str(totalCnt)
             imageDataAsArray = imageManipulationUtil.loadImageAsArray(fName)
             imageDataAsArray = imageManipulationUtil.squashImageArray(imageDataAsArray,self.imageXSize,self.imageYSize)
             imagesDataList.append(imageDataAsArray)
@@ -182,6 +182,7 @@ class genericDataSetLoader:
         print self.testingDataY.shape
 
     def __save(self):
+        print "Saving the processed data..."
         preparedData={}
         preparedData["trainingX"] = self.trainingDataX
         preparedData["trainingY"] = self.trainingDataY
@@ -190,6 +191,7 @@ class genericDataSetLoader:
         pklFile = open("preparedData.pkl", 'wb')
         pickle.dump(preparedData, pklFile)
         pklFile.close()
+        print "Data saved..."
 
     def getNextTrainBatch(self,batchSize):
         trainDataX = dataManipulationUtil.selectRows(self.trainingDataX,self.trainingDataOffset,batchSize)
