@@ -49,7 +49,11 @@ class genericDataSetLoader:
 
     def __loadImageData(self,fileNames):
         imagesDataList = []
+        cnt=0
+        totalCnt = len(fileNames)
         for fName in fileNames:
+            cnt = cnt+1 
+            print "Loading Image:"+cnt+"/"+totalCnt
             imageDataAsArray = imageManipulationUtil.loadImageAsArray(fName)
             imageDataAsArray = imageManipulationUtil.squashImageArray(imageDataAsArray,self.imageXSize,self.imageYSize)
             imagesDataList.append(imageDataAsArray)
@@ -195,6 +199,6 @@ class genericDataSetLoader:
 
     def resetBatch(self):
         self.trainingDataOffset=0
-        
+
     def getNextTestBatch(self):
         return self.testingDataX,self.testingDataY
