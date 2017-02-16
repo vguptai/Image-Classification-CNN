@@ -10,6 +10,7 @@ import scipy.misc
 import imageManipulationUtil
 import dataManipulationUtil
 import pickle
+import util
 
 class genericDataSetLoader:
 
@@ -47,6 +48,15 @@ class genericDataSetLoader:
     def __getClassIndex(self,clazz):
         return self.className2ClassIndxMap[clazz]
 
+    def __loadImageDataParallely(self,fileNames):
+        imagesDataList = imageManipulationUtil.loadAndSquashImagesParallely(fileNames,self.imageXSize,self.imageYSize)
+        return imagesDataList
+
+    def __loadAnImageData(fileName):
+        imageXSize=64
+        imageYSize=64
+        return imageManipulationUtil.loadAndSquash(fileName,imageXSize,imageYSize)
+
     def __loadImageData(self,fileNames):
         imagesDataList = []
         cnt=0
@@ -54,9 +64,7 @@ class genericDataSetLoader:
         for fName in fileNames:
             cnt = cnt+1
             print "Loading Image:"+str(cnt)+"/"+str(totalCnt)
-            imageDataAsArray = imageManipulationUtil.loadImageAsArray(fName)
-            imageDataAsArray = imageManipulationUtil.squashImageArray(imageDataAsArray,self.imageXSize,self.imageYSize)
-            imagesDataList.append(imageDataAsArray)
+            imagesDataList.append(self.__loadAnImageData(fName))
         img_np = np.array(imagesDataList)
         return img_np
 
@@ -156,15 +164,15 @@ class genericDataSetLoader:
 
     def __postProcessData(self):
         #convert file paths into numpy array by reading the files
-        print "Reading the training image files..."
-        self.trainingDataX = self.__loadImageData(self.trainingDataX)
-        print "Reading the training image files..."
-        self.testingDataX = self.__loadImageData(self.testingDataX)
+        print "Reading the training image files..."+util.getCurrentTime()
+        self.trainingDataX = self.__loadImageDataParallely(self.trainingDataX)
+        print "Reading the training image files..."+util.getCurrentTime()
+        self.testingDataX = self.__loadImageDataParallely(self.testingDataX)
 
         #convert class lables into one hot encoded
-        print "Creating one hot encoded vectors for training labels..."
+        print "Creating one hot encoded vectors for training labels..."+util.getCurrentTime()
         self.trainingDataY = self.__convertLabelsToOneHotVector(self.trainingDataY,self.numClasses)
-        print "Creating one hot encoded vectors for testing labels..."
+        print "Creating one hot encoded vectors for testing labels..."+util.getCurrentTime()
         self.testingDataY = self.__convertLabelsToOneHotVector(self.testingDataY,self.numClasses)
 
 
