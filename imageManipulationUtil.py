@@ -49,7 +49,7 @@ def loadAndSquashImage(imagePath,sizeX,sizeY,totalImages):
 #http://stackoverflow.com/questions/2846653/how-to-use-threading-in-python
 def loadAndSquashImagesParallely(imagePaths,sizeX,sizeY):
     imagesDataList = []
-    count = 0
+    counter.value=0 # defaults to 0
     pool = ThreadPool(numParallelProcess)
     #imagesDataList = pool.map(loadAndSquashImage,itertools.izip(imagePaths,itertools.repeat(sizeX),itertools.repeat(sizeY)))
     imagesDataList = pool.map(partial(loadAndSquashImage,sizeX=sizeX,sizeY=sizeY,totalImages=len(imagePaths)),imagePaths)
