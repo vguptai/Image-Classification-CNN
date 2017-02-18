@@ -3,7 +3,7 @@ from numpy import array
 import numpy as np
 import scipy.misc
 #from concurrent.futures import ProcessPoolExecutor, as_completed
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing import Pool as ThreadPool
 from multiprocessing import Value, Lock
 import itertools
 from functools import partial
@@ -45,6 +45,7 @@ def loadAndSquashImage(imagePath,sizeX,sizeY,totalImages):
 #             imagesDataList.append(imageNpArray)
 #     return imagesDataList
 
+#http://eli.thegreenplace.net/2013/01/16/python-paralellizing-cpu-bound-tasks-with-concurrent-futures/
 #http://stackoverflow.com/questions/2846653/how-to-use-threading-in-python
 def loadAndSquashImagesParallely(imagePaths,sizeX,sizeY):
     imagesDataList = []
@@ -54,4 +55,4 @@ def loadAndSquashImagesParallely(imagePaths,sizeX,sizeY):
     imagesDataList = pool.map(partial(loadAndSquashImage,sizeX=sizeX,sizeY=sizeY,totalImages=len(imagePaths)),imagePaths)
     pool.close()
     pool.join()
-    return imagesDataList
+    return np.array(imagesDataList)
