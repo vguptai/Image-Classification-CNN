@@ -46,15 +46,15 @@ class convNetModel:
         fc = tf.nn.relu(tf.matmul(fc, weights['W_fc']) + biases['b_fc'])
         fc = tf.nn.dropout(fc, keep_rate)
 
-        output = tf.matmul(fc, weights['out']) + biases['out']
+        output = tf.matmul    (fc, weights['out']) + biases['out']
 
         return output
 
     def _setupNetwork(self):
         self.prediction = self._buildNetwork()
-        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(prediction, self.y))
+        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=self.prediction, labels=self.y))
         self.optimizer = tf.train.AdamOptimizer().minimize(self.cost)
-        self.correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(self.y, 1))
+        self.correct = tf.equal(tf.argmax(self.prediction, 1), tf.argmax(self.y, 1))
         self.accuracy = tf.reduce_mean(tf.cast(self.correct, 'float'))
 
 
