@@ -7,10 +7,31 @@ from convNetModel import *
 genericDataSetLoader = genericDataSetLoader(False,"dataset",n_classes,testTrainSplit,imageSizeX,imageSizeY)
 genericDataSetLoader.loadData()
 
-def calculateTestAccuracy():
-    testX,testY = genericDataSetLoader.getNextTestBatch()
+def calculateTrainAccuracy():
+    genericDataSetLoader.resetTrainBatch()
+    batchAccuracies = []
+    while(True):
+        trainX, trainY = genericDataSetLoader.getNextTrainBatch(batch_size)
+        if(trainX is None):
+            break
+        acc = convNetModel.test(trainX,trainY)
+        batchAccuracies.append(acc)
+        #print "Accuracy of test batch..."+str(acc)
     #testX = np.reshape(testX, (-1, imageSizeX, imageSizeY, numChannels))
-    print('Accuracy:', convNetModel.test(testX,testY))
+    print('Training Accuracy:', sum(batchAccuracies) / float(len(batchAccuracies)))
+
+def calculateTestAccuracy():
+    genericDataSetLoader.resetTestBatch()
+    batchAccuracies = []
+    while(True):
+        testX, testY = genericDataSetLoader.getNextTestBatch(batch_size)
+        if(testX is None):
+            break
+        acc = convNetModel.test(testX,testY)
+        batchAccuracies.append(acc)
+        #print "Accuracy of test batch..."+str(acc)
+    #testX = np.reshape(testX, (-1, imageSizeX, imageSizeY, numChannels))
+    print('Testing/Validation Accuracy:', sum(batchAccuracies) / float(len(batchAccuracies)))
 
 
 def restoreFromCheckPoint(sess,saver):
@@ -37,7 +58,7 @@ def trainNeuralNetwork():
         for epoch in range(start,numEpochs):
             epoch_loss = 0
 
-            genericDataSetLoader.resetBatch()
+            genericDataSetLoader.resetTrainBatch()
 
             while(True):
                 epoch_x, epoch_y = genericDataSetLoader.getNextTrainBatch(batch_size)
@@ -50,6 +71,7 @@ def trainNeuralNetwork():
             saver.save(sess,'model/data-all.chkp',global_step=global_step)
             print('Epoch', epoch, 'completed out of', numEpochs, 'loss:', epoch_loss)
 
+            calculateTrainAccuracy()
             #Get the validation/test accuracy
             calculateTestAccuracy()
 

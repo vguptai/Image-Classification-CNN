@@ -28,6 +28,7 @@ class genericDataSetLoader:
     trainingDataY = None
     testingDataY = None
     trainingDataOffset = 0
+    testingDataOffset = 0
     alreadySplitInTrainTest = False
 
     def __init__(self,alreadySplitInTrainTest,basePath,numClasses,splitPercentage,imageSizeX,imageSizeY):
@@ -207,8 +208,14 @@ class genericDataSetLoader:
         self.trainingDataOffset = self.trainingDataOffset+batchSize
         return trainDataX,trainDataY
 
-    def resetBatch(self):
+    def resetTrainBatch(self):
         self.trainingDataOffset=0
 
-    def getNextTestBatch(self):
-        return self.testingDataX,self.testingDataY
+    def resetTestBatch(self):
+        self.testingDataOffset=0
+
+    def getNextTestBatch(self,batchSize):
+        testDataX = dataManipulationUtil.selectRows(self.testingDataX,self.testingDataOffset,batchSize)
+        testDataY = dataManipulationUtil.selectRows(self.testingDataY,self.testingDataOffset,batchSize)
+        self.testingDataOffset = self.testingDataOffset+batchSize
+        return testDataX,testDataY
