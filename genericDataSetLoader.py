@@ -219,3 +219,22 @@ class genericDataSetLoader:
         testDataY = dataManipulationUtil.selectRows(self.testingDataY,self.testingDataOffset,batchSize)
         self.testingDataOffset = self.testingDataOffset+batchSize
         return testDataX,testDataY
+
+    def analyzeDataDistribution(self):
+        self.loadData()
+        print "Total Training Instances:"+str(self.trainingDataY.shape[0])
+        print "Total Testing Instances:"+str(self.testingDataY.shape[0])
+        #print self.__convertOneHotVectorToLabels(self.trainingDataY)
+        for classIndex in range(0,self.numClasses):
+            print "Distribution For Class:"+str(classIndex)
+            trainDistribution = self.__convertOneHotVectorToLabels(self.trainingDataY)
+            trainDistribution = np.count_nonzero(trainDistribution == classIndex) 
+            testDistribution = self.__convertOneHotVectorToLabels(self.testingDataY)
+            testDistribution = np.count_nonzero(testDistribution == classIndex) 
+            print "Instances In Training Data:"+str(trainDistribution)
+            print "Instances In Testing Data:"+str(testDistribution)
+        print "Done"
+    
+    def __convertOneHotVectorToLabels(self,oneHotVectors):
+        labels = np.argmax(oneHotVectors==1,axis=1)
+        return labels
