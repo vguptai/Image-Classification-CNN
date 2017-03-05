@@ -6,6 +6,7 @@ batch_size = 32
 testTrainSplit = 0.8
 imageSizeX=224
 imageSizeY=224
-keep_rate = 0.9
+training_keep_rate = 0.9
+testing_keep_rate = 1.0
 
 ckpt_dir = "./model"

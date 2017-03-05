@@ -10,10 +10,12 @@ class convNetModel:
     correct = None
     x = None
     y = None
+    keep_rate = None
 
     def __init__(self):
         self.x = tf.placeholder('float', [None, imageSizeX,imageSizeY,numChannels])
         self.y = tf.placeholder('float')
+        self.keep_rate = tf.placeholder(tf.float32)
         self._setupNetwork()
 
     def _conv2d(self,x, W):
@@ -44,9 +46,9 @@ class convNetModel:
 
         fc = tf.reshape(conv2, [-1, imageSizeX/4 * imageSizeY/4 * 64])
         fc = tf.nn.relu(tf.matmul(fc, weights['W_fc']) + biases['b_fc'])
-        fc = tf.nn.dropout(fc, keep_rate)
+        fc = tf.nn.dropout(fc, self.keep_rate)
 
-        output = tf.matmul    (fc, weights['out']) + biases['out']
+        output = tf.matmul(fc, weights['out']) + biases['out']
 
         return output
 
@@ -59,7 +61,7 @@ class convNetModel:
 
 
     def train(self,sess,trainX,trainY):
-        return sess.run([self.optimizer, self.cost], feed_dict={self.x: trainX, self.y: trainY})
+        return sess.run([self.optimizer, self.cost], feed_dict={self.x: trainX, self.y: trainY, self.keep_rate: training_keep_rate})
 
     def test(self,testX,testY):
-        return self.accuracy.eval({self.x: testX, self.y: testY})
+        return self.accuracy.eval({self.x: testX, self.y: testY, self.keep_rate: testing_keep_rate})
