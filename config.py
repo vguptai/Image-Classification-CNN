@@ -1,5 +1,5 @@
 n_classes = 2
-numEpochs = 3
+numEpochs = 20
 numChannels = 3
 
 batch_size = 32

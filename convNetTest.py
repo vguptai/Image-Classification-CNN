@@ -11,8 +11,20 @@ def testNeuralNetwork():
         if ckpt and ckpt.model_checkpoint_path:
             print(ckpt.model_checkpoint_path+" :Testing this checkpoint...")
             saver.restore(sess, ckpt.model_checkpoint_path) # restore all variables
-        testX,testY = genericDataSetLoader.getNextTestBatch()
-        print('Accuracy:', convNetModel.test(testX,testY))
+        calculateTestAccuracy()
+
+def calculateTestAccuracy():
+    genericDataSetLoader.resetTestBatch()
+    batchAccuracies = []
+    while(True):
+        testX, testY = genericDataSetLoader.getNextTestBatch(batch_size)
+        if(testX is None):
+            break
+        acc = convNetModel.test(testX,testY)
+        batchAccuracies.append(acc)
+        print "Accuracy of test batch..."+str(acc)
+    #testX = np.reshape(testX, (-1, imageSizeX, imageSizeY, numChannels))
+    print('Accuracy:', sum(batchAccuracies) / float(len(batchAccuracies)))
 
 
 convNetModel = convNetModel()
