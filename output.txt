@@ -1,0 +1,43 @@
+Starting fresh training...
+Start from:0/2000
+('Epoch', 0, 'completed out of', 2000, 'loss:', 30382487898.5625)
+('Training Accuracy:', 0.93532698675496684)
+('Testing/Validation Accuracy:', 0.93503289473684215)
+Loss has improved more than the threshold...saving this model..0.879307260901
+('Epoch', 1, 'completed out of', 2000, 'loss:', 3666945685.125)
+('Training Accuracy:', 0.94308774834437081)
+('Testing/Validation Accuracy:', 0.93585526315789469)
+Loss has improved more than the threshold...saving this model..0.57174308867
+('Epoch', 2, 'completed out of', 2000, 'loss:', 1570394833.125)
+('Training Accuracy:', 0.94339817880794707)
+('Testing/Validation Accuracy:', 0.94120065789473684)
+Loss has improved more than the threshold...saving this model..0.366094487497
+('Epoch', 3, 'completed out of', 2000, 'loss:', 995481941.5234375)
+('Training Accuracy:', 0.94981374172185429)
+('Testing/Validation Accuracy:', 0.93955592105263153)
+Loss has improved more than the threshold...saving this model..0.357995370746
+('Epoch', 4, 'completed out of', 2000, 'loss:', 639104014.796875)
+('Training Accuracy:', 0.95571192052980136)
+('Testing/Validation Accuracy:', 0.93667763157894735)
+Loss has improved more than the threshold...saving this model..0.322337213762
+('Epoch', 5, 'completed out of', 2000, 'loss:', 433097007.36328125)
+('Training Accuracy:', 0.95798841059602646)
+('Testing/Validation Accuracy:', 0.93708881578947367)
+Loss has improved more than the threshold...saving this model..0.230266824644
+('Epoch', 6, 'completed out of', 2000, 'loss:', 333369134.71484375)
+('Training Accuracy:', 0.95788493377483441)
+('Testing/Validation Accuracy:', 0.93791118421052633)
+Loss has improved more than the threshold...saving this model..0.0434525251515
+('Epoch', 7, 'completed out of', 2000, 'loss:', 318883404.00390625)
+('Training Accuracy:', 0.95829884105960261)
+('Testing/Validation Accuracy:', 0.93421052631578949)
+Loss has improved more than the threshold...saving this model..0.380765014585
+('Epoch', 8, 'completed out of', 2000, 'loss:', 197463760.02734375)
+('Training Accuracy:', 0.96036837748344372)
+('Testing/Validation Accuracy:', 0.94325657894736847)
+C
+c
+
+i
+
+Loss did not improved more than the threshold...quitting now..0.00625292705917
