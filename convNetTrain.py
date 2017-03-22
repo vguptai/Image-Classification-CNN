@@ -54,6 +54,7 @@ def trainNeuralNetwork():
         start = restoreFromCheckPoint(sess,saver)
         print "Start from:"+str(start)+"/"+str(numEpochs)
 
+        prev_epoch_loss = 0
         #Training epochs
         for epoch in range(start,numEpochs):
             epoch_loss = 0
@@ -67,9 +68,20 @@ def trainNeuralNetwork():
                 _, c = convNetModel.train(sess,epoch_x,epoch_y)
                 epoch_loss += c
 
+
+            if(prev_epoch_loss!=0):
+                loss_improvement = (prev_epoch_loss - epoch_loss)/prev_epoch_loss
+                if(loss_improvement<0.01):
+                    print "Loss did not improved more than the threshold...quitting now.."+str(loss_improvement)
+                    break
+                else:
+                    print "Loss has improved more than the threshold...saving this model.."+str(loss_improvement)
+            
             global_step.assign(epoch).eval()
             saver.save(sess,'model/data-all.chkp',global_step=global_step)
             print('Epoch', epoch, 'completed out of', numEpochs, 'loss:', epoch_loss)
+
+            prev_epoch_loss = epoch_loss
 
             calculateTrainAccuracy()
             #Get the validation/test accuracy
