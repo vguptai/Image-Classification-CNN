@@ -10,3 +10,5 @@ training_keep_rate = 0.9
 testing_keep_rate = 1.0
 
 ckpt_dir = "./model"
+pretrainedModelPath = "./pretrainedModel/vgg16.npy"
+usePretrainedNetwork = True
