@@ -92,6 +92,6 @@ def trainNeuralNetwork():
 
 global_step = tf.Variable(0, name='global_step', trainable=False)
 
-convNetModel = convNetModel()
+convNetModel = convNetModel(usePretrainedNetwork)
 saver = tf.train.Saver()
 trainNeuralNetwork()
