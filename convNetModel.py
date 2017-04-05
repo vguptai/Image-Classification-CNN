@@ -13,11 +13,11 @@ class convNetModel:
     y = None
     keep_rate = None
 
-    def __init__(self,usePretrainedNetwork=False):
+    def __init__(self,usePretrainedNetwork=False,fineTunePretrainedModel=False):
         self.x = tf.placeholder('float', [None, imageSizeX,imageSizeY,numChannels])
         self.y = tf.placeholder('float')
         self.keep_rate = tf.placeholder(tf.float32)
-        self._setupNetwork(usePretrainedNetwork)
+        self._setupNetwork(usePretrainedNetwork,fineTunePretrainedModel)
 
     def _conv2d(self,x, W):
         return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
@@ -55,12 +55,12 @@ class convNetModel:
 
         return output
 
-    def _buildNetworkFromPretrainedVGG16(self):
+    def _buildNetworkFromPretrainedVGG16(self,fineTunePretrainedModel):
             
             weights = {'out': tf.Variable(tf.random_normal([1024, n_classes]))}
             biases = {'out': tf.Variable(tf.random_normal([n_classes]))}
 
-            vgg16FeatureExtrator = Vgg16(self.x, pretrainedModelPath)
+            vgg16FeatureExtrator = Vgg16(self.x,fineTunePretrainedModel, pretrainedModelPath)
             pretrainedNetwork = vgg16FeatureExtrator.getFinalLayer()
             
             # Here, we are converting the output from the pretrained network [num_images,reduced_xdim,reduced_ydim,final_num_filters]
@@ -81,10 +81,10 @@ class convNetModel:
             output = tf.matmul(fc, weights['out']) + biases['out']
             return output
 
-    def _setupNetwork(self,usePretrainedNetwork):
+    def _setupNetwork(self,usePretrainedNetwork,fineTunePretrainedModel):
         
         if usePretrainedNetwork:
-            self.prediction = self._buildNetworkFromPretrainedVGG16()
+            self.prediction = self._buildNetworkFromPretrainedVGG16(fineTunePretrainedModel)
         else:
             self.prediction = self._buildNetwork()
 

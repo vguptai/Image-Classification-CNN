@@ -12,3 +12,4 @@ testing_keep_rate = 1.0
 ckpt_dir = "./model"
 pretrainedModelPath = "./pretrainedModel/vgg16.npy"
 usePretrainedNetwork = True
+fineTunePretrainedModel = True
