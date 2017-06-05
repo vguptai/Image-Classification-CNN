@@ -4,7 +4,7 @@ from config import *
 import os
 from convNetModel import *
 
-genericDataSetLoader = genericDataSetLoader(False,"dataset",n_classes,testTrainSplit,imageSizeX,imageSizeY)
+genericDataSetLoader = genericDataSetLoader(False,datasetFolder,n_classes,testTrainSplit,imageSizeX,imageSizeY)
 genericDataSetLoader.loadData()
 
 def calculateTrainAccuracy():
@@ -76,7 +76,7 @@ def trainNeuralNetwork():
                     break
                 else:
                     print "Loss has improved more than the threshold...saving this model.."+str(loss_improvement)
-            
+
             global_step.assign(epoch).eval()
             saver.save(sess,'model/data-all.chkp',global_step=global_step)
             print('Epoch', epoch, 'completed out of', numEpochs, 'loss:', epoch_loss)
