@@ -27,6 +27,6 @@ def calculateTestAccuracy():
     print('Accuracy:', sum(batchAccuracies) / float(len(batchAccuracies)))
 
 
-convNetModel = convNetModel()
+convNetModel = convNetModel(usePretrainedNetwork,fineTunePretrainedModel)
 saver = tf.train.Saver()
 testNeuralNetwork()
