@@ -12,4 +12,9 @@ python prepareDataSetFromImages.py
 python convNetTrain.py
 ```
 
-The file <b> config.py </b> contains the parameters/flags.
+4) Run the following command to test the model.
+```python
+python convNetTest.py 
+```
+
+The file <b> config.py </b> contains the various parameters/flags that can be set.
