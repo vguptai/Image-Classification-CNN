@@ -26,7 +26,6 @@ def calculateTestAccuracy():
     #testX = np.reshape(testX, (-1, imageSizeX, imageSizeY, numChannels))
     print('Accuracy:', sum(batchAccuracies) / float(len(batchAccuracies)))
 
-
 convNetModel = convNetModel(usePretrainedNetwork,fineTunePretrainedModel)
 saver = tf.train.Saver()
 testNeuralNetwork()
