@@ -56,13 +56,13 @@ class convNetModel:
         return output
 
     def _buildNetworkFromPretrainedVGG16(self,fineTunePretrainedModel):
-            
+
             weights = {'out': tf.Variable(tf.random_normal([1024, n_classes]))}
             biases = {'out': tf.Variable(tf.random_normal([n_classes]))}
 
             vgg16FeatureExtrator = Vgg16(self.x,fineTunePretrainedModel, pretrainedModelPath)
             pretrainedNetwork = vgg16FeatureExtrator.getFinalLayer()
-            
+
             # Here, we are converting the output from the pretrained network [num_images,reduced_xdim,reduced_ydim,final_num_filters]
             # into [num_images,reduced_xdim * reduced_ydim * final_num_filters]
             shape = pretrainedNetwork.get_shape().as_list()
@@ -70,19 +70,19 @@ class convNetModel:
             for d in shape[1:]:
                 dim *= d
             fc  = tf.reshape(pretrainedNetwork, [-1, dim])
-            
+
             # First fully connected layer
             w_fc_1 = tf.Variable(tf.random_normal([dim, 1024]))
             b_fc_1 = tf.Variable(tf.random_normal([1024]))
             fc = tf.nn.relu(tf.matmul(fc, w_fc_1) + b_fc_1)
             fc = tf.nn.dropout(fc, self.keep_rate)
-            
+
             # Output layer
             output = tf.matmul(fc, weights['out']) + biases['out']
             return output
 
     def _setupNetwork(self,usePretrainedNetwork,fineTunePretrainedModel):
-        
+
         if usePretrainedNetwork:
             self.prediction = self._buildNetworkFromPretrainedVGG16(fineTunePretrainedModel)
         else:
